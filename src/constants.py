@@ -26,7 +26,7 @@ observation_template = {
 
 directories = {
     "data": "../data",
-    "satellites": "../data/satellite/",
+    "satellites": "../data/satellites/",
     "satellites_json": "../data/satellites/satellites.json",
     "satellites_csv": "../data/satellites/satellites.csv",
     "tm_events":  "../data/telemetry_events/",
@@ -40,8 +40,6 @@ directories = {
     "logs": "../data/logs/",
     "log_file": "../data/logs/log.txt",
     "combined_csv": "../data/combined.csv"
-
-
 }
 
 if __name__ == '__main__':

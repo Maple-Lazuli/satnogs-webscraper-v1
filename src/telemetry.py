@@ -188,20 +188,20 @@ class Telemetry:
 
 if __name__ == '__main__':
     tm = Telemetry(max_pages=10)
-    # internation_space_station_id = "XSKZ-5603-1870-9019-3066" # norad 25544
-    # humsat_d_id = "ISTU-1593-3487-2251-7574" #norad 39433
-    # cube_bel_1_id = "WMQB-0532-9164-6364-5821" # norad 43666
-    # print("Get URL")
-    # print(tm.get_url_endpoint(internation_space_station_id))
-    # print("Telemetry Fetch")
-    # print(tm.fetch_telemetry_by_satellite(sat_id=internation_space_station_id)[3])
-    # print("Fetching for Several Satellites")
-    # tm.get_satellite_events_by_sat_id(sat_ids=[internation_space_station_id, humsat_d_id, cube_bel_1_id])
-    # print(tm.telemetry_events[4])
-    # print("Clearing Archive")
-    # tm.clear_archived_events()
-    # print("Multiprocess Fetch")
-    # tm.multiprocess_fetch(sat_ids=[internation_space_station_id, humsat_d_id, cube_bel_1_id])
+    internation_space_station_id = "XSKZ-5603-1870-9019-3066" # norad 25544
+    humsat_d_id = "ISTU-1593-3487-2251-7574" #norad 39433
+    cube_bel_1_id = "WMQB-0532-9164-6364-5821" # norad 43666
+    print("Get URL")
+    print(tm.get_url_endpoint(internation_space_station_id))
+    print("Telemetry Fetch")
+    print(tm.fetch_telemetry_by_satellite(sat_id=internation_space_station_id)[3])
+    print("Fetching for Several Satellites")
+    tm.get_satellite_events_by_sat_id(sat_ids=[internation_space_station_id, humsat_d_id, cube_bel_1_id])
+    print(tm.telemetry_events[4])
+    print("Clearing Archive")
+    tm.clear_archived_events()
+    print("Multiprocess Fetch")
+    tm.multiprocess_fetch(sat_ids=[internation_space_station_id, humsat_d_id, cube_bel_1_id])
     print("Loading From Archive")
     tm.get_archived_satellites_events()
     print(tm.telemetry_events[4])
