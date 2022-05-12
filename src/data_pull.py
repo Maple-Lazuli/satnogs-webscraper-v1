@@ -1,8 +1,8 @@
 import json
 import pandas as pd
-from satellites import Satellites
-from telemetry import Telemetry
-from observation_scraper import ObservationScraper
+from src.satellites import Satellites
+from src.telemetry import Telemetry
+from src.observation_scraper import ObservationScraper
 import constants as cnst
 import os
 import shutil

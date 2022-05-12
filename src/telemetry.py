@@ -6,7 +6,7 @@ from multiprocessing import Pool
 import pandas as pd
 import requests
 
-import constants as cnst
+import src.constants as cnst
 
 
 class Telemetry:
@@ -188,9 +188,9 @@ class Telemetry:
 
 if __name__ == '__main__':
     tm = Telemetry(max_pages=10)
-    internation_space_station_id = "XSKZ-5603-1870-9019-3066" # norad 25544
-    humsat_d_id = "ISTU-1593-3487-2251-7574" #norad 39433
-    cube_bel_1_id = "WMQB-0532-9164-6364-5821" # norad 43666
+    internation_space_station_id = "XSKZ-5603-1870-9019-3066"  # norad 25544
+    humsat_d_id = "ISTU-1593-3487-2251-7574"  # norad 39433
+    cube_bel_1_id = "WMQB-0532-9164-6364-5821"  # norad 43666
     print("Get URL")
     print(tm.get_url_endpoint(internation_space_station_id))
     print("Telemetry Fetch")

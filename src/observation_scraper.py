@@ -8,8 +8,8 @@ import pandas as pd
 from bs4 import BeautifulSoup as bs
 import html5lib
 
-import constants as cnst
-import image_utils as iu
+import src.constants as cnst
+import src.image_utils as iu
 
 
 class ObservationScraper:
@@ -196,8 +196,6 @@ class ObservationScraper:
         cropped_shape, bytes_name = iu.crop_and_save_psd(waterfall_name)
 
         return cropped_shape, bytes_name
-
-
 
 
 if __name__ == '__main__':

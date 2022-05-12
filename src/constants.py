@@ -5,7 +5,7 @@ telemetry = "telemetry/?"
 web_address = "https://network.satnogs.org/"
 
 keys = dict()
-with open("../keys.txt", 'r') as file_in:
+with open("./keys.txt", 'r') as file_in:
     keys['api'] = file_in.readline().strip()
     keys['cookie'] = file_in.readline().strip()
     keys['token'] = file_in.readline().strip()
@@ -25,21 +25,21 @@ observation_template = {
 }
 
 directories = {
-    "data": "../data",
-    "satellites": "../data/satellites/",
-    "satellites_json": "../data/satellites/satellites.json",
-    "satellites_csv": "../data/satellites/satellites.csv",
-    "tm_events":  "../data/telemetry_events/",
-    "tm_compiled": "../data/telemetry_compiled/",
-    "tm_compiled_json": "../data/telemetry_compiled/events.json",
-    "tm_compiled_csv": "../data/telemetry_compiled/events.csv",
-    "observations": "../data/observations/",
-    "waterfalls": "../data/observations/waterfalls/",
-    "observation_json": "../data/observations/observations.json",
-    "observation_csv": "../data/observations/observations.csv",
-    "logs": "../data/logs/",
-    "log_file": "../data/logs/log.txt",
-    "combined_csv": "../data/combined.csv"
+    "data": "./data",
+    "satellites": "./data/satellites/",
+    "satellites_json": "./data/satellites/satellites.json",
+    "satellites_csv": "./data/satellites/satellites.csv",
+    "tm_events":  "./data/telemetry_events/",
+    "tm_compiled": "./data/telemetry_compiled/",
+    "tm_compiled_json": "./data/telemetry_compiled/events.json",
+    "tm_compiled_csv": "./data/telemetry_compiled/events.csv",
+    "observations": "./data/observations/",
+    "waterfalls": "./data/observations/waterfalls/",
+    "observation_json": "./data/observations/observations.json",
+    "observation_csv": "./data/observations/observations.csv",
+    "logs": "./data/logs/",
+    "log_file": "./data/logs/log.txt",
+    "combined_csv": "./data/combined.csv"
 }
 
 if __name__ == '__main__':

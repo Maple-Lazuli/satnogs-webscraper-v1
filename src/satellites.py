@@ -4,11 +4,12 @@ import json
 import pandas as pd
 import requests
 
-import constants as cnst
+import src.constants as cnst
 
 
 class Satellites:
-    def __init__(self, api=cnst.api, endpoint=cnst.satellites, prints=True):
+    def __init__(self, api=cnst.api, endpoint=cnst.satellites, dataframe_location=cnst.directories['satellites_csv'],
+                 json_location=cnst.directories['satellites_json'], prints=True):
         """
         The satellites class uses HTTP GET to create a JSON or DATAFRAME of satellites from SATNOGS
         :param api: The name of the host to pull data from
@@ -18,11 +19,11 @@ class Satellites:
         self.api = api
         self.endpoint = endpoint
         self.response_json = None
-        self.dataframe_location = cnst.directories['satellites_csv']
-        self.json_location = cnst.directories['satellites_json']
+        self.dataframe_location = dataframe_location
+        self.json_location = json_location
         self.prints = prints
 
-    def get_dataframe(self):
+    def get_dataframe(self, save_to_disk = True):
         """
         Get a dataframe from the collected JSON by either reading from the disk if it is archived or by fetching
         the data again.
@@ -31,8 +32,9 @@ class Satellites:
         if self.response_json is None:
             self.get_data()
         sats_df = pd.DataFrame.from_dict(self.response_json)
-        print("Saved satellites CSV to disk") if self.prints else None
-        sats_df.to_csv(self.dataframe_location, index=False)
+        if save_to_disk:
+            sats_df.to_csv(self.dataframe_location, index=False)
+            print("Saved satellites CSV to disk") if self.prints else None
         return self.fix_df_index(sats_df)
 
     @staticmethod
