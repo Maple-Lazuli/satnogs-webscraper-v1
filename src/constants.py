@@ -25,17 +25,22 @@ observation_template = {
 }
 
 directories = {
+    "data": "../data",
+    "satellites": "../data/satellite/",
     "satellites_json": "../data/satellites/satellites.json",
     "satellites_csv": "../data/satellites/satellites.csv",
     "tm_events":  "../data/telemetry_events/",
+    "tm_compiled": "../data/telemetry_compiled/",
     "tm_compiled_json": "../data/telemetry_compiled/events.json",
     "tm_compiled_csv": "../data/telemetry_compiled/events.csv",
     "observations": "../data/observations/",
     "waterfalls": "../data/observations/waterfalls/",
     "observation_json": "../data/observations/observations.json",
     "observation_csv": "../data/observations/observations.csv",
+    "logs": "../data/logs/",
     "log_file": "../data/logs/log.txt",
     "combined_csv": "../data/combined.csv"
+
 
 }
 

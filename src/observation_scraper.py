@@ -9,9 +9,10 @@ from bs4 import BeautifulSoup as bs
 import html5lib
 
 import constants as cnst
+import image_utils as iu
 
 
-class ObservationScrapper:
+class ObservationScraper:
     def __init__(self, fetch_waterfalls=True, fetch_logging=True, prints=True):
         """
         Scrapes the webpages for satellite observations. Waterfall fetches are set to false by default due to the
@@ -60,7 +61,7 @@ class ObservationScrapper:
         Takes a list of observations and scrapes the webpages associated with those URLs
         :param observations_list: The list of observations to pull webpages for
         :param write_disk: Boolean on whether to write the resulting list of observations to the disk
-        :param clear_list: Boolean on whether to clear the observations list prior to scrapping pages.
+        :param clear_list: Boolean on whether to clear the observations list prior to scraping pages.
         :return: None. Updates the object's observations list
         """
         if clear_list:
@@ -95,7 +96,7 @@ class ObservationScrapper:
         """
         Scrapes a webpage for an observation
         :param url: The url to the website to scrape
-        :return: A dictionary of the scrapped webpage
+        :return: A dictionary of the scraped webpage
         """
         template = cnst.observation_template.copy()
         r = requests.get(url)
@@ -166,6 +167,7 @@ class ObservationScrapper:
             audio = None
             waterfall = None
             waterfall_hash_name = None
+            waterfall_shape = None
             for a in div.find_all("a", href=True):
                 if str(a).find("Audio") != -1:
                     audio = a.attrs['href']
@@ -173,36 +175,45 @@ class ObservationScrapper:
                     waterfall = a.attrs['href']
                     waterfall_hash_name = f'{hashlib.sha256(bytearray(waterfall, encoding="utf-8")).hexdigest()}.png'
                     if self.fetch_waterfalls:
-                        self.fetch_waterfall(waterfall, waterfall_hash_name)
-            return 'Downloads', {'audio': audio, "waterfall": waterfall, "waterfall_hash_name": waterfall_hash_name}
+                        waterfall_shape, waterfall_hash_name = self.fetch_waterfall(waterfall, waterfall_hash_name)
+            return 'Downloads', {'audio': audio, "waterfall": waterfall, "waterfall_hash_name": waterfall_hash_name,
+                                 "waterfall_shape": waterfall_shape}
         return None, None
 
     def fetch_waterfall(self, url, file_name):
         """
-        Fetches and writes waterfall PNGs to the disk.
+        Fetches and writes waterfall PNGs to the disk, then crops the image and converts it to grey scale.
         :param url: The URL to the waterfall file to pull
         :param file_name: The name the file should be saved as.
-        :return: None
+        :return: The shape of the cropped image and name of the waterfall written to disk as a bytes object.
         """
         res = requests.get(url)
-        with open(self.waterfall_path + file_name, 'wb') as out:
+        waterfall_name = self.waterfall_path + file_name
+
+        with open(waterfall_name, 'wb') as out:
             out.write(res.content)
+
+        cropped_shape, bytes_name = iu.crop_and_save_psd(waterfall_name)
+
+        return cropped_shape, bytes_name
+
+
 
 
 if __name__ == '__main__':
     print("Single Scrapes")
-    scrapper = ObservationScrapper()
-    scrape1 = scrapper.scrape_observation('https://network.satnogs.org/observations/5025420/')
-    scrape2 = scrapper.scrape_observation('https://network.satnogs.org/observations/44444/')
+    scraper = ObservationScraper()
+    scrape1 = scraper.scrape_observation('https://network.satnogs.org/observations/5025420/')
+    scrape2 = scraper.scrape_observation('https://network.satnogs.org/observations/44444/')
     print(f"{scrape1}")
     print(f"{scrape2}")
     print(" PNG Fetch")
-    print(f'{scrapper.fetch_waterfall(scrape2["Downloads"]["waterfall"], scrape2["Downloads"]["waterfall_hash_name"])}')
+    print(f'{scraper.fetch_waterfall(scrape2["Downloads"]["waterfall"], scrape2["Downloads"]["waterfall_hash_name"])}')
     print("Observations Pull")
-    scrapper.scrape_observations([5025420, 44444])
-    print(f'{scrapper.observations_list}')
+    scraper.scrape_observations([5025420, 44444])
+    print(f'{scraper.observations_list}')
     print("Multiprocess Observations Pull")
-    scrapper.multiprocess_scrape_observations([5025420, 44444])
-    print(f'{scrapper.observations_list}')
+    scraper.multiprocess_scrape_observations([5025420, 44444])
+    print(f'{scraper.observations_list}')
     print('Getting Dataframe')
-    scrapper.get_dataframe().head()
+    scraper.get_dataframe().head()

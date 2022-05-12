@@ -1,0 +1,7 @@
+.idea/*
+venv/*
+notebooks/*
+data/*
+keys.txt
+src/__pycache__/*
+src/.ipynb_checkpoints/*
