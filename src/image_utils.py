@@ -10,7 +10,7 @@ def find_left_bound(im):
     x_max, y_max = im.size
     for y in range(0, y_max):
         for x in range(0, x_max):
-            if im.getpixel((x, y)) != (255, 255, 255, 255):
+            if im.getpixel((x, y)) != 255:
                 left_lengths.append(x)
                 break
     return Counter(left_lengths).most_common(1)[0][0]
@@ -21,7 +21,7 @@ def find_upper_bound(im):
     x_max, y_max = im.size
     for x in range(0, x_max):
         for y in range(0, y_max):
-            if im.getpixel((x, y)) != (255, 255, 255, 255):
+            if im.getpixel((x, y)) != 255:
                 upper_lengths.append(y)
                 break
     return Counter(upper_lengths).most_common(1)[0][0]
@@ -32,7 +32,7 @@ def find_bottom_bound(im):
     x_max, y_max = im.size
     for x in range(0, x_max):
         for y in range(y_max - 1, 0, -1):
-            if im.getpixel((x, y)) != (255, 255, 255, 255):
+            if im.getpixel((x, y)) != 255:
                 bottom_lengths.append(y)
                 break
     return Counter(bottom_lengths).most_common(1)[0][0]
@@ -43,7 +43,7 @@ def find_right_bound(im):
     for x in range(x_max // 2, x_max):
         broke = False
         for y in range(0, y_max):
-            if im.getpixel((x, y)) != (255, 255, 255, 255):
+            if im.getpixel((x, y)) != 255:
                 broke = True
                 break
         if not broke:
@@ -52,16 +52,16 @@ def find_right_bound(im):
 
 def crop_and_save_psd(input_image, delete_original=True):
     im_source = Image.open(input_image)
-
+    im_greyscale = im_source.convert('L')
     # Find the boundaries of the center most PSD and crop the image.
-    left_bound = find_left_bound(im_source)
-    right_bound = find_right_bound(im_source)
-    upper_bound = find_upper_bound(im_source)
-    bottom_bound = find_bottom_bound(im_source)
-    im_cropped = im_source.crop([left_bound, upper_bound, right_bound, bottom_bound])
+    left_bound = find_left_bound(im_greyscale)
+    right_bound = find_right_bound(im_greyscale)
+    upper_bound = find_upper_bound(im_greyscale)
+    bottom_bound = find_bottom_bound(im_greyscale)
+    im_cropped = im_greyscale.crop([left_bound, upper_bound, right_bound, bottom_bound])
 
     # Convert to greyscale and save as unit8 bytes to disk, using the original file name, minus the file extension
-    numpy_im = np.array(im_cropped.convert('L'))
+    numpy_im = np.array(im_cropped)
 
     # store the shape and write to a file
     shape = numpy_im.shape

@@ -1,8 +1,5 @@
-import pandas
 import pandas as pd
-import pytest
 import os
-import shutil
 from src.data_pull import prepare_directory
 from src.telemetry import Telemetry
 import src.constants as cnst
@@ -189,7 +186,7 @@ class TestTelemetryClass:
         tm.multiprocess_fetch(sat_ids=[iss_id, humsat_d_id, cube_bel_1_id])
 
         tm_df = tm.get_events_df()
-        assert type(tm_df) == pandas.DataFrame
+        assert type(tm_df) == pd.DataFrame
 
         assert iss_id in list(set(tm_df['sat_id'].values))
         assert humsat_d_id in list(set(tm_df['sat_id'].values))

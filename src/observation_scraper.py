@@ -199,14 +199,14 @@ class ObservationScraper:
 
 
 if __name__ == '__main__':
+    # Demonstration of use
     print("Single Scrapes")
     scraper = ObservationScraper()
     scrape1 = scraper.scrape_observation('https://network.satnogs.org/observations/5025420/')
     scrape2 = scraper.scrape_observation('https://network.satnogs.org/observations/44444/')
+    print(scrape2)
     print(f"{scrape1}")
     print(f"{scrape2}")
-    print(" PNG Fetch")
-    print(f'{scraper.fetch_waterfall(scrape2["Downloads"]["waterfall"], scrape2["Downloads"]["waterfall_hash_name"])}')
     print("Observations Pull")
     scraper.scrape_observations([5025420, 44444])
     print(f'{scraper.observations_list}')
@@ -214,4 +214,4 @@ if __name__ == '__main__':
     scraper.multiprocess_scrape_observations([5025420, 44444])
     print(f'{scraper.observations_list}')
     print('Getting Dataframe')
-    scraper.get_dataframe().head()
+    print(scraper.get_dataframe().head())

@@ -85,6 +85,7 @@ class Satellites:
 
 
 if __name__ == '__main__':
+    # Demonstrating Use
     sats = Satellites()
     print(" Fetch")
     sats.fetch_json()

@@ -181,6 +181,7 @@ class Telemetry:
 
 
 if __name__ == '__main__':
+    # Demonstrating Use
     tm = Telemetry(max_pages=10)
     internation_space_station_id = "XSKZ-5603-1870-9019-3066"  # norad 25544
     humsat_d_id = "ISTU-1593-3487-2251-7574"  # norad 39433
