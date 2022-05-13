@@ -5,3 +5,7 @@ data/*
 keys.txt
 src/__pycache__/*
 src/.ipynb_checkpoints/*
+.pytest_cache/*
+tests/.pytest_cache/*
+tests/__pycache__/*
+

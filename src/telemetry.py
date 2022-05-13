@@ -11,7 +11,7 @@ import src.constants as cnst
 
 class Telemetry:
     def __init__(self, prints=True,
-                 max_pages=1000000):
+                 max_pages=1e10):
         """
         Queries the telemetry endpoint for satellite observation events.
         :param prints: Boolean on whether to print to the screen
@@ -81,7 +81,7 @@ class Telemetry:
                 json.dump(return_jsons, out)
         return return_jsons
 
-    def get_satellite_events_by_sat_id(self, sat_ids, check_disk=True, empty_list=True, fetch=True, save_events=True):
+    def get_events_by_sat_id(self, sat_ids, check_disk=True, empty_list=True, fetch=True, save_events=True):
         """
         Fetch observation events for a satellites identified in a list of sat_ids
         :param sat_ids: The internal SATNOGS database ID for the satellite
@@ -120,7 +120,7 @@ class Telemetry:
         pool = Pool()
         pool.map(self.fetch_telemetry_by_satellite, sat_ids)
         if update_tm_events:
-            self.get_satellite_events_by_sat_id(sat_ids, fetch=False)
+            self.get_events_by_sat_id(sat_ids, fetch=False)
 
     def get_archived_satellites_events(self, empty_list=True, save_events=True):
         """
@@ -162,18 +162,12 @@ class Telemetry:
         """
         Get a dataframe from the observations events.
         :param load_from_disk: Boolean on whether to load from disk or use the list in memory
-        :param save_csv:
+        :param save_csv: save the created dataframe as a CSV to the disk
         :return: pandas dataframe
         """
         if load_from_disk:
-            print("Trying To Load Telemetry ") if self.prints else None
-            if exists(self.completed_df):
-                print("Loading Telemetry Events From CSV") if self.prints else None
-                return pd.read_csv(self.completed_df)
-            elif exists(self.completed_json):
-                with open(self.completed_json, 'r') as file_in:
-                    df = pd.DataFrame.from_dict(json.load(file_in))
-                    print("Loading Telemetry Events From Json File") if self.prints else None
+            self.get_archived_satellites_events()
+            df = pd.DataFrame.from_dict(self.telemetry_events)
         elif len(self.telemetry_events) > 0:
             df = pd.DataFrame.from_dict(self.telemetry_events)
             print("Loading Telemetry Events From Memory") if self.prints else None
@@ -196,7 +190,7 @@ if __name__ == '__main__':
     print("Telemetry Fetch")
     print(tm.fetch_telemetry_by_satellite(sat_id=internation_space_station_id)[3])
     print("Fetching for Several Satellites")
-    tm.get_satellite_events_by_sat_id(sat_ids=[internation_space_station_id, humsat_d_id, cube_bel_1_id])
+    tm.get_events_by_sat_id(sat_ids=[internation_space_station_id, humsat_d_id, cube_bel_1_id])
     print(tm.telemetry_events[4])
     print("Clearing Archive")
     tm.clear_archived_events()
