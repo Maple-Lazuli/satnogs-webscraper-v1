@@ -1,4 +1,4 @@
-![image-20220515234951600](/home/ada/CodeProjects/satnogs-webscraper/images/image-20220515234951600.png)
+![image-20220515234951600](./images/image-20220515234951600.png)
 
 # SATNOGS Web-scraper
 
@@ -72,7 +72,7 @@ The script will then use the *Observation ID* to generate links to the webpages 
 
 
 
-![PSD Processing](/home/ada/CodeProjects/satnogs-webscraper/images/psd-processing.drawio.png)
+![PSD Processing](./images/psd-processing.drawio.png)
 
 
 
