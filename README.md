@@ -111,6 +111,12 @@ docker run -d -v <path-to-save-data-in:/opt/app/data satnogs-webscraper
 
 This will cause the script to run in a docker container and save the results to the directory specified in the previous command.
 
+Finally, to monitor the progress of the app, use the command: 
+```bash
+docker logs --follow <container id>
+```
+This will cause the terminal window print messages from the app.
+
 ### Running Locally
 
 First verify that python3  and pip are installed. 
