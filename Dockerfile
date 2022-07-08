@@ -13,8 +13,6 @@ RUN apt install python3 -y
 
 RUN apt install python3-pip -y
 
-RUN apt install python3.10-venv -y
-
 RUN pip install -r opt/app/requirements.txt
 
 RUN mkdir /opt/app/data

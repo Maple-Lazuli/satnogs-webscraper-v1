@@ -74,7 +74,7 @@ if __name__ == '__main__':
     sat = Satellites()
     sat_ids = sat.get_dataframe().index.values
     # Use satellite IDs to query TM events and find observation IDs
-    tm = Telemetry(prints=True, max_pages=50)
+    tm = Telemetry(prints=True, max_pages=10000000)
     tm.clear_archived_events()
     tm.multiprocess_fetch(sat_ids, update_tm_events=True)
     tm_df = tm.get_events_df(save_csv=True)
