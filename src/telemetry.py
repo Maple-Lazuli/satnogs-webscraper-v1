@@ -2,6 +2,7 @@ from os import listdir, remove
 from os.path import exists, isfile
 import json
 from multiprocessing import Pool
+import time
 
 import pandas as pd
 import requests
@@ -51,8 +52,19 @@ class Telemetry:
         r = requests.get(
             self.get_url_endpoint(sat_id),
             headers=headers_dict)
+
+        # Keep lopping while waiting on the time-outs.
+        while r.status_code == 429:
+            # Typical wait messages have the form "Request was throttled. Expected available in 53 seconds."
+            wait_time = int(r.json()['detail'].split(" ")[-2])
+            print(f"Waiting {wait_time} seconds.")
+            time.sleep(wait_time + 1)
+            r = requests.get(
+                self.get_url_endpoint(sat_id),
+                headers=headers_dict)
+
         if r.status_code != 200:
-            print(f'HTTP status {r.status_code} received for {sat_id}') if self.prints else None
+            print(f'HTTP status {r.status_code} received for {sat_id} with message: {r.content}') if self.prints else None
             return []
 
         return_jsons = return_jsons + r.json()
@@ -66,6 +78,17 @@ class Telemetry:
                 r = requests.get(
                     self.get_url_endpoint(sat_id, page=page_count),
                     headers=headers_dict)
+
+                # Keep lopping while waiting on the time-outs.
+                while r.status_code == 429:
+                    # Typical wait messages have the form "Request was throttled. Expected available in 53 seconds."
+                    wait_time = int(r.json()['detail'].split(" ")[-2])
+                    print(f"Waiting {wait_time} seconds.")
+                    time.sleep(wait_time + 1)
+                    r = requests.get(
+                        self.get_url_endpoint(sat_id),
+                        headers=headers_dict)
+
                 if r.status_code != 200:
                     print(f"HTTP status {r.status_code} received for {sat_id}") if self.prints else None
                     print(f"{len(return_jsons)} observations were collected for {sat_id}") if self.prints else None
